@@ -17,6 +17,7 @@ tab2 = ttk.Frame(tabControl)
 tabControl.add(tab2, text='寄信')
 tabControl.pack(expand=1, fill="both")
 
+
 class MyApp:
     def __init__(self, root):
         self.root = root
