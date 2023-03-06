@@ -117,3 +117,4 @@ class CombinePdf:
                 out_folder=self.folder_path3
             )
             self.text4.insert(tk.END, msg + '\n')
+        self.text4.insert(tk.END, '===== Done ===== \n')

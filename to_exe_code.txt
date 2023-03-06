@@ -1,1 +1,1 @@
-pyinstaller main.py --windowed --hidden-import=pdf2image,PyPDF2
+pyinstaller --hidden-import pdf2image --hidden-import PyPDF2 main.py
