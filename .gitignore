@@ -5,4 +5,4 @@
 *.ali
 build/
 dist/
-temp/
+/temp/
