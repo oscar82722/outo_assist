@@ -3,6 +3,11 @@
 
 from tkinter import filedialog, ttk
 import tkinter as tk
+import time
+import os
+
+
+import src.sendemail as sm
 
 
 class Sendmail:
@@ -42,7 +47,7 @@ class Sendmail:
         button4 = ttk.Button(
             self.frame2,
             text="執行   ",
-            command='')
+            command=self.run_sent_mail)
         button4.pack(side=tk.RIGHT)
 
         self.frame3 = ttk.Frame(self.root)
@@ -57,3 +62,18 @@ class Sendmail:
         # 更新 Text 元件內容
         self.text1.delete('1.0', tk.END)  # 刪除原有內容
         self.text1.insert(tk.END, self.folder_path1)
+
+    def run_sent_mail(self):
+        # 更新 Text 元件內容
+        self.text2.delete('1.0', tk.END)  # 刪除原有內容
+        # check input file
+        file_names = os.listdir(self.folder_path1)
+        for f in file_names:
+            msg = sm.run_sent(file=self.folder_path1+'/'+f)
+            self.text2.insert(tk.END, msg + '\n')
+            time.sleep(1)
+
+        self.text2.insert(tk.END, '===== Done ===== \n')
+
+
+
