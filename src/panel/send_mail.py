@@ -71,6 +71,7 @@ class Sendmail:
         for f in file_names:
             msg = sm.run_sent(file=self.folder_path1+'/'+f)
             self.text2.insert(tk.END, msg + '\n')
+            self.text2.update_idletasks()
             time.sleep(1)
 
         self.text2.insert(tk.END, '===== Done ===== \n')
