@@ -5,7 +5,7 @@ from tkinter import filedialog, ttk
 import tkinter as tk
 import os
 
-import src.util as ut
+import src.pdf_combine as ut
 
 
 class CombinePdf:
@@ -21,10 +21,10 @@ class CombinePdf:
         self.frame0.pack(padx=10, pady=10)
         label1 = tk.Label(
             self.frame0,
-            text="本程式以 '統編' 作為配對方式，因此 \n"
-                 "1. 401 檔名中必需以 '_' 作為連接符號，統編需為第2個位置"
-                 "例 : 11112_14660852_營業人銷售額與稅額申報書(401)_.pdf \n"
-                 "2. 請款單檔名必須要有 統編",
+            text="本程式以 '統編' 作為配對方式，以請款單為基準，尋找對應的401檔案，因此 \n"
+                 "1. 請款單 檔名 必需以 '_' 作為連接符號，統編需為第1個位置"
+                 "例 : 14660123_xxxxx_11201_請款明細表_.pdf。 \n"
+                 "2. 401 檔案中 檔名 必須有 統編。",
             foreground="red", anchor="w")
         label1.pack(fill="x")
 
@@ -36,7 +36,7 @@ class CombinePdf:
         self.text1.pack(side=tk.LEFT)
 
         button1 = ttk.Button(self.frame1,
-                             text="401檔案 資料夾",
+                             text="請款單 檔案 資料夾",
                              command=self.askdirectory1)
         button1.pack(side=tk.LEFT, padx=10)
 
@@ -49,7 +49,7 @@ class CombinePdf:
 
         button2 = ttk.Button(
             self.frame2,
-            text="請款單 資料夾  ",
+            text="401 檔案 資料夾  ",
             command=self.askdirectory2)
         button2.pack(side=tk.LEFT, padx=10)
 

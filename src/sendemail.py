@@ -4,9 +4,9 @@
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import pandas as pd
 import smtplib
 import json
+import csv
 
 
 def send_email(email, password, recipient_email,
@@ -49,35 +49,44 @@ def run_sent(file):
         # Load the JSON data from the file
         set_file = json.load(f)
 
-    c_info = pd.read_csv('./setting/company_info.csv',
-                         encoding='cp950', dtype=str)
+    with open('./setting/company_info.csv', 'r') as f:
+        my_reader = csv.reader(f, delimiter=',')
+        company_id, company_email, company_name = zip(
+            *my_reader)
 
     # now info
     id_code = file.split('/')[-1].split('.')[0]
-    c_info_n = c_info[c_info['id'] == id_code]
+    indices = [index for index, value in
+               enumerate(company_id) if
+               value == id_code]
 
-    if c_info_n.shape[0] != 1:
-        msg = 'ID not found or multiple IDs found'
+    if len(indices) == 0:
+        msg = 'ID not found in company_info.csv'
     else:
-        email_n = c_info_n.email.to_list()[0]
-        recipient_n = c_info_n.recipient.to_list()[0]
-        body_n = set_file['body'].split('<body>')
-        body_n[1] = '<p>' + recipient_n + ' 您好</p>' + \
-                    body_n[1]
-        body_n = '<body>'.join(body_n)
-        send_email(email=set_file['email'],
-                   password=set_file['password'],
-                   recipient_email=email_n,
-                   subject=set_file['subject'],
-                   body=body_n,
-                   file=file)
-        msg = 'Email sent successfully'
+        email_success = list()
+        for i in indices:
+            email_n = company_email[i]
+            recipient_n = company_name[i]
+            body_n = set_file['body'].split('<body>')
+            body_n[1] = '<p>' + recipient_n + ' 您好</p>' + \
+                        body_n[1]
+            body_n = '<body>'.join(body_n)
+            send_email(email=set_file['email'],
+                       password=set_file['password'],
+                       recipient_email=email_n,
+                       subject=set_file['subject'],
+                       body=body_n,
+                       file=file)
+            email_success = email_success + [email_n]
+
+        msg = 'Email sent successfully(' + \
+              ' , '.join(email_success) + ')'
 
     return id_code + ' : ' + msg
 
 
 if __name__ == '__main__':
-
-    msg1 = run_sent(file='C:/Users/wang/Desktop/123456.pdf')
+    msg1 = run_sent(
+        file='C:/Users/wang/Desktop/123456.pdf')
     print(msg1)
 

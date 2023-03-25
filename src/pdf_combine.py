@@ -61,9 +61,13 @@ def combine_pdf(files, out_path):
     merger.close()
 
 
-def run_combine_pdf(file_name, target_folder, out_folder):
+def run_combine_pdf(file_name,
+                    target_folder,
+                    out_folder,
+                    code_index=0):
     # get company code
-    file_code = file_name.split('/')[-1].split('_')[1]
+    file_code = \
+        file_name.split('/')[-1].split('_')[code_index]
 
     # get data
     file_names = os.listdir(target_folder)
@@ -85,9 +89,11 @@ def run_combine_pdf(file_name, target_folder, out_folder):
 
 if __name__ == '__main__':
     msg1 = run_combine_pdf(
-        file_name='C:/Users/wang/Desktop/新增資料夾/1/11112_14660853_營業人銷售額與稅額申報書(401)_.pdf',
-        target_folder='C:/Users/wang/Desktop/新增資料夾/2/',
-        out_folder='C:/Users/wang/Desktop/新增資料夾/3/')
+        file_name='C:/Users/wang/Desktop/test data/請款單/14660123_立昇食品行_11201_請款明細表.pdf',
+        target_folder='C:/Users/wang/Desktop/test data/401/',
+        out_folder='C:/Users/wang/Desktop/test data/combine/',
+        code_index=0
+    )
 
     print(msg1)
 
